@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body onload="searchrec()">
+    <div id="container"></div>
+
+</body>
+
+</html>
+
+<script>
+    async function searchrec() {
+        let res = await fetch("https:www.themealdb.com/api/json/v1/1/random.php")
+        let data = await res.json();
+        console.log(data)
+        append(data.meals)
+    }
+
+    let product = document.getElementById("container")
+
+    function append(data) {
+        product.innerHTML = null
+        data.forEach(({
+            strMeal,
+            strArea,
+            strMealThumb,
+        }) => {
+            var div = document.createElement("div")
+            var img = document.createElement("img")
+            img.src = strMealThumb;
+            var origin = document.createElement("h4")
+            origin.textContent = strArea;
+            var name = document.createElement("h2")
+            name.textContent = strMeal;
+            var price = document.createElement("h3")
+            price.textContent = "Rs. " + getRandomInt(1000)
+            var btn = document.createElement("button")
+            btn.textContent = "Add to Cart"
+            btn.className = "btn"
+            
+            div.append(name, img, origin, price, btn)
+            product.append(div)
+        })
+    }
+
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max)
+    }
+</script>
